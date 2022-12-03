@@ -6,15 +6,16 @@
 
 <div class="flex">
 	{#if label}
-		<div class="text-lg mr-2">{label}</div>
+		<div class="text-lg mr-2 font-bold">{label}</div>
 	{/if}
 	<div class="flex items-center">
 		{#if Array.isArray(value)}
 			{#each value as v, i}
 				{#if i !== 0}
-					<span>{separator}</span>
+					{separator + v}
+				{:else}
+					{v}
 				{/if}
-				<span>{v}</span>
 			{/each}
 		{:else}
 			<span>{value}</span>

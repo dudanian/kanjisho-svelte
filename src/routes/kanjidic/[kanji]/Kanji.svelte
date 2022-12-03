@@ -1,17 +1,12 @@
 <script type="ts">
 	import type { Kanji } from 'src/lib/kanji';
+	import Chips from './Chips.svelte';
 	import Value from './Value.svelte';
 	export let kanji: Kanji;
 
-	let [stroke_count, ...alternative_count] = kanji.stroke_count;
-
-	let kun_readings = kanji.entries?.[0].readings
-		?.filter((r) => r.lang === 'ja_kun')
-		.map((r) => r.value);
-	let on_readings = kanji.entries?.[0].readings
-		?.filter((r) => r.lang === 'ja_on')
-		.map((r) => r.value);
-	let meanings = kanji.entries?.[0].meanings?.filter((m) => m.lang === 'en').map((m) => m.value);
+	let kun_readings = kanji.kun_readings;
+	let on_readings = kanji.on_readings;
+	let meanings = kanji.meanings;
 
 	console.log(kun_readings, on_readings, meanings);
 </script>
@@ -22,7 +17,7 @@
 	</div>
 	<div>
 		{#if meanings}
-			<Value value={meanings} separator=", " />
+			<Chips values={meanings} />
 		{/if}
 		{#if kun_readings}
 			<Value label="Kun" value={kun_readings} />
@@ -32,18 +27,18 @@
 		{/if}
 	</div>
 	<div>
-		<Value label="Stroke" value={stroke_count} />
-		{#if alternative_count.length}
-			<Value label="Alternative Stroke Count" value={alternative_count} />
+		<Value label="Stroke" value={kanji.info.stroke_count} />
+		{#if kanji.info.grade}
+			<Value label="Grade (old)" value={kanji.info.grade} />
 		{/if}
-		{#if kanji.grade}
-			<Value label="Grade (old)" value={kanji.grade} />
+		{#if kanji.info.freq}
+			<Value label="Frequency" value={kanji.info.freq} />
 		{/if}
-		{#if kanji.freq}
-			<Value label="Frequency" value={kanji.freq} />
+		{#if kanji.info.jlptn}
+			<Value label="JLPT" value={'N' + kanji.info.jlptn} />
 		{/if}
-		{#if kanji.jlpt}
-			<Value label="JLPT" value={'N' + kanji.jlpt} />
+		{#if kanji.info.jlpt}
+			<Value label="Old JLPT" value={'N' + kanji.info.jlpt} />
 		{/if}
 	</div>
 </section>
@@ -56,11 +51,11 @@
 	{/each}
 {/if} -->
 
-{#if kanji.nanori}
-	<Value label="Nanori" value={kanji.nanori} />
+{#if kanji.nanoris}
+	<Value label="Nanori" value={kanji.nanoris} />
 {/if}
 
 <h2 class="text-lg peer">Raw</h2>
-<div class="hidden peer-hover:block hover:block border border-black bg-white">
+<div class="hidden peer-hover:block hover:block border border-black bg-white dark:bg-slate-900">
 	{JSON.stringify(kanji)}
 </div>

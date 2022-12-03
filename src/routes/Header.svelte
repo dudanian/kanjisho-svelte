@@ -10,4 +10,7 @@
 	<nav class="text-lg">
 		<a class="p-4" href="/kanjidic/klc">KLC</a>
 	</nav>
+	<nav class="text-lg">
+		<a class="p-4" href="/about">About</a>
+	</nav>
 </header>
